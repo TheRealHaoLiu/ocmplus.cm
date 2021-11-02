@@ -1,0 +1,48 @@
+---
+# - name: Uninstall MultiClusterObservability (MCO) instance
+
+- name: Delete All ManagedClusters
+  block:
+    - name: Fetch the list of ManagedClusters excluding local-cluster
+      set_fact:
+        managedclusters: "{{ query('kubernetes.core.k8s', api_version='cluster.open-cluster-management.io/v1', kind='ManagedCluster', label_selector='!local-cluster') }}"
+    - name: Delete all ManagedCluster
+      kubernetes.core.k8s:
+        state: absent
+        # wait: yes
+        api_version: "{{ item.apiVersion }}"
+        kind: "{{ item.kind }}"
+        name: "{{ item.metadata.name }}"
+      with_items: "{{ managedclusters }}"
+
+- name: Delete All ClusterDeployment
+  block:
+    - name: Fetch the list of ClusterDeployments
+      set_fact: 
+        clusterdeployments: "{{ query('kubernetes.core.k8s', api_version='hive.openshift.io/v1', kind='ClusterDeployment') }}"
+    - name: Delete all ClusterDeployment
+      kubernetes.core.k8s:
+        state: absent
+        # wait: yes
+        api_version: "{{ item.apiVersion }}"
+        kind: "{{ item.kind }}"
+        name: "{{ item.metadata.name }}"
+        namespace: "{{ item.metadata.namespace }}"
+      with_items: "{{ clusterdeployments }}"
+
+- name: Uninstall MultiClusterHub (MCH) instance
+  block:
+    - name: Fetch all MultiClusterHub
+      set_fact: 
+        multiclusterhubs: "{{ query('kubernetes.core.k8s', api_version='operator.open-cluster-management.io/v1', kind='MultiClusterHub') }}"
+    - name: Delete all MultiClusterHub 
+      kubernetes.core.k8s:
+        state: absent
+        wait: yes
+        api_version: "{{ item.apiVersion }}"
+        kind: "{{ item.kind }}"
+        name: "{{ item.metadata.name }}"
+        namespace: "{{ item.metadata.namespace }}"
+      with_items: "{{ multiclusterhubs }}"
+
+# TODO: figure out how to safely delete the operator 

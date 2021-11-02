@@ -1,0 +1,5 @@
+- hosts: localhost
+  environment:
+    K8S_AUTH_KUBECONFIG: /Users/liuhao/cluster-info/hao-dev/auth/kubeconfig
+  roles:
+     - role: ocm-uninstall

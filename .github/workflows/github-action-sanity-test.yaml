@@ -60,7 +60,7 @@ jobs:
 #        working-directory: ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
 
       - name: Install test-requirements
-        run: pip install -r requirements.txt
+        run: pip install -r test-requirements.txt
         working-directory: ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
 
       # run ansible-test sanity inside of Docker.

@@ -9,3 +9,4 @@ roles/ocm-attach/templates/klusterletaddonconfig.yml yamllint:unparsable-with-li
 roles/ocm-attach/templates/managedcluster.yml yamllint:unparsable-with-libyaml # TODO issue #34
 roles/ocm-labels/templates/mc_delete_label.yml yamllint:unparsable-with-libyaml # TODO issue #34
 roles/ocm-labels/templates/mc_update_label.yml yamllint:unparsable-with-libyaml # TODO issue #34
+.github/workflows/github-action-sanity-test.yaml yamllint:empty-lines

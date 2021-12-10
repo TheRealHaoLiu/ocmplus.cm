@@ -154,20 +154,20 @@ def ensure_klusterletaddonconfig(hub_client, eks_cluster_name, addons):
     return klusterletaddonconfig
 
 
-try:
-    import backoff
+# try:
+#     import backoff
 
-    @backoff.on_exception(backoff.expo, NotFoundError)
-    def get_import_secret(secret_api, cluster_name):
-        """
-        Fetches the managed cluster import secret with exponential backoff
-        :param secret_api: The Secret API from the ACM hub client
-        :param cluster_name: The name of managed cluster
-        :return: The Secret object
-        """
-        return secret_api.get(name=cluster_name + "-import", namespace=cluster_name)
-except ImportError:
-    raise AnsibleError("Error importing backoff lib: " + traceback.format_exc())
+    # @backoff.on_exception(backoff.expo, NotFoundError)
+def get_import_secret(secret_api, cluster_name):
+    """
+    Fetches the managed cluster import secret with exponential backoff
+    :param secret_api: The Secret API from the ACM hub client
+    :param cluster_name: The name of managed cluster
+    :return: The Secret object
+    """
+    return secret_api.get(name=cluster_name + "-import", namespace=cluster_name)
+# except ImportError:
+#     raise AnsibleError("Error importing backoff lib: " + traceback.format_exc())
 
 
 def get_import_yamls(hub_client, cluster_name):
